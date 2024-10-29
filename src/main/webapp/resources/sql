@@ -1,0 +1,12 @@
+-- 2024.10.29
+
+create table board (
+bno long auto_increment,
+title varchar(500) not null,
+writer varchar(500) not null,
+content text,
+is_del varchar(5) default 'N',
+reg_date datetime default now(),
+read_cnt int default 0,
+primary key(bno)
+);
