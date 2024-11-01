@@ -65,7 +65,7 @@ async function getCommentListFromServer(bno, page) {
 
 // 수정 삭제
 document.addEventListener('click', (e)=> {
-    console.log(e.target);
+    // console.log(e.target);
     // 내가 클릭한 버트의 객체를 모달 창으로 전달
     if(e.target.classList.contains('mod')) {
         // 내가 클릭한 버튼의 li 가져오기
@@ -100,7 +100,7 @@ document.addEventListener('click', (e)=> {
             if(result === '1') {
                 alert('댓글 등록 성공');
             } else {
-                alert('실패');
+                alert('댓글 등록 실패');
             }
             // 모달창 닫기 : btn-close 라는 객체를 클릭해라.
             document.querySelector('.btn-close').click;
@@ -109,18 +109,23 @@ document.addEventListener('click', (e)=> {
             spreadCommentList(bnoVal);
         })
     }
+
     if(e.target.classList.contains("del")) {
         // cno만 있으면 됨
         let li = e.target.closest('li');
         let cno = li.dataset.cno;
         removeCommentToServer(cno).then(result => {
             if(result === '1') {
-                alert('댓글 등록 성공');
+                alert('댓글 삭제 성공');
             } else {
-                alert('실패');
+                alert('댓글 삭제 실패');
             }
             spreadCommentList(bnoVal);
         })
+    }
+    if(e.target.id == 'moreBtn') {
+        let page = parseInt(e.target.dataset.page);
+        spreadCommentList(bnoVal, page);
     }
 })
 
@@ -166,13 +171,17 @@ async function removeCommentToServer(cno) {
  function spreadCommentList(bno, page=1) {
         getCommentListFromServer(bno, page).then(result => {
         // 댓글 뿌리기
-        console.log(result);
+        console.log("ph>",result);
         const ul = document.getElementById("cmtListArea");
-        let li = "";
-        if(result.length > 0) {
-            ul.innerHTML=""; // 반복 전 기존 예시를 초기화.
-            for(let cvo of result){
-                li += `<li class="list-group-item" data-cno=${cvo.cno}>`;
+        console.log("ul>",ul);
+        // let li = "";
+        if(result.cmtList.length > 0) {
+            if(page == 1) {
+               // 반복 전 기존 예시를 초기화. (더보기 버튼에 의한 누적 불가능)
+               ul.innerHTML = "";
+            }
+            for(let cvo of result.cmtList){
+                let li = `<li class="list-group-item" data-cno=${cvo.cno}>`;
                 li += `<div class="ms-2 me-auto">`;
                 li += `<div class="fw-bold">${cvo.writer}</div>`;
                 li += `${cvo.content}`;
@@ -182,8 +191,25 @@ async function removeCommentToServer(cno) {
                 li += `<button type="button" data-cno=${cvo.cno} class="btn btn-primary mod" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`
                 li += `<button type="button" data-cno=${cvo.cno} class="btn btn-danger del">삭제</button>`;
                 li += `</li>`;
+                ul.innerHTML += li;
             }
-                ul.innerHTML = li;
+                // ul.innerHTML = li;
+            
+                // 더보기 버튼 코드
+            let moreBtn = document.getElementById("moreBtn");
+            // 더보기 버튼이 표시되는 조건
+            // result = ph > pgvo, pageNo = 1 / realEndPage = 2
+            // 현재 페이지가 전체 페이지보다 작으면 표시
+            if(result.pgvo.pageNo < result.realEndPage) {
+                // style.visibility = "hidden" : 숨김 / 'visible' : 표시
+                moreBtn.style.visibility = 'visible';           // 버튼 표시
+                moreBtn.dataset.page = page+1;                  // 1 페이지 증가
+            } else {
+                // 현재 페이지가 전체보다 작지 않다면, 같거나 크다면 숨김 처리
+                moreBtn.style.visibility = 'hidden';
+            }
+
+
         } else {
             ul.innerHTML = `<div>Comment List None.</div>`;
         }

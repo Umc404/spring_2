@@ -50,8 +50,9 @@ public class CommentController {
 //	}
 	@GetMapping(value="/{bno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagingHandler> list(@PathVariable("bno") long bno, @PathVariable("page") int page) {
-		PagingVO pgvo = new PagingVO(page, 5);
-		PagingHandler ph = csv.getList(bno, pgvo);
+		
+		PagingVO pgvo = new PagingVO(page, 5); 			// DB에 전달할 값을 설정 limit 0, 5
+		PagingHandler ph = csv.getList(bno, pgvo);		// 화면에 더보기 버튼의 표시유무
 		
 		return new ResponseEntity<PagingHandler>(ph, HttpStatus.OK);
 	}

@@ -1,6 +1,7 @@
 package com.ezen.spring.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -43,8 +44,19 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	// 사용자 지정 설정이 필요한 경우 사용. (파일 업로드)
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
-		// TODO Auto-generated method stub
-		super.customizeRegistration(registration);
+		// 파일 업로드 설정 (위치 설정)
+		String uploadLocation = "D:\\umc\\_myProject\\_java\\_fileUpload";
+		int maxFileSize = 1024*1024*20;				// 첨부파일 하나 당 최고 용량 : 20mb
+		int maxReqSize = maxFileSize * 3;			// 첨부파일 개수
+		int fileSizeThreshold = maxFileSize;		// 
+		
+		MultipartConfigElement multipartConfig =
+				new MultipartConfigElement(uploadLocation, maxFileSize, maxReqSize, fileSizeThreshold);
+		
+		registration.setMultipartConfig(multipartConfig);
+		
+		// 기존 사용했던 메서드. 파일업로드 기능 추가 시 사용안함
+//		super.customizeRegistration(registration);
 	}
 	
 	

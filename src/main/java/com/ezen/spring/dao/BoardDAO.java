@@ -21,4 +21,6 @@ public interface BoardDAO {
 
 	int getTotal();
 
+	long getOneBno();
+
 }

@@ -36,11 +36,11 @@
 		select count(bno) from board where is_del = 'N'
 		<include refid="search"></include>
 	</select>
-		<!-- select * from board
-		where is_del = 'N' and (title like concat('%',keyword,'%') 
-								writer concat('%',keyword,'%'))
-		order by bno desc
-		limit #{pageStart}, #{qty} -->
+	
+	<select id="getOneBno" resultType="long">
+		select max(bno) from board	
+	</select>
+	
 	<!-- search 동적 쿼리 -->
 	<sql id="search">
 		<if test="type!=null">
@@ -62,14 +62,6 @@
 				</foreach>
 			</trim>
 		</if>
-		
-		
-		
-		
-		
-		
-		
-		
 	</sql>
 
 </mapper>
