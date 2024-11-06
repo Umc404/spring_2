@@ -9,6 +9,7 @@ import com.ezen.spring.dao.BoardDAO;
 import com.ezen.spring.dao.FileDAO;
 import com.ezen.spring.domain.BoardDTO;
 import com.ezen.spring.domain.BoardVO;
+import com.ezen.spring.domain.CommentVO;
 import com.ezen.spring.domain.FileVO;
 import com.ezen.spring.domain.PagingVO;
 
@@ -23,29 +24,26 @@ public class BoardServiceImpl implements BoardService {
 	
 	private final BoardDAO bdao;
 	private final FileDAO fdao;
-	
-//	@Override
-//	public int insert(BoardVO bvo) {
-//		// TODO Auto-generated method stub
-//		return bdao.insert(bvo);
-//	}
 
-//	@Override
-//	public List<BoardVO> getList() {
-//		// TODO Auto-generated method stub
-//		return bdao.getList();
-//	}
-
-//	@Override
-//	public BoardVO getDetail(int bno) {
-//		// TODO Auto-generated method stub
-//		return bdao.getDetail(bno);
-//	}
-
+	@Transactional
 	@Override
-	public int modify(BoardVO bvo) {
-		// TODO Auto-generated method stub
-		return bdao.modify(bvo);
+	public int modify(BoardDTO bdto) {
+		int isOk = bdao.update(bdto.getBvo());
+		if(bdto.getFlist() == null) {
+			return isOk;
+		}
+		
+		// 첨부파일이 있는 케이스
+		if(isOk > 0 && bdto.getFlist().size() > 0) {
+			// bno setting
+//			long bno = bdao.getOneBno();	// 가장 마지막에 등록된 bno
+			for(FileVO fvo : bdto.getFlist()) {
+				fvo.setBno(bdto.getBvo().getBno());
+				isOk *= fdao.insertFile(fvo);
+			}
+		}
+		bdao.hasFileUpdate(bdto.getBvo().getBno(), bdto.getFlist().size());
+		return isOk;
 	}
 
 	@Override
@@ -84,8 +82,8 @@ public class BoardServiceImpl implements BoardService {
 				isOk *= fdao.insertFile(fvo);
 			}
 		}
-		
-		return 0;
+		bdao.hasFileUpdate(bdto.getBvo().getBno(), bdto.getFlist().size());
+		return isOk;
 	}
 	
 	
@@ -99,5 +97,32 @@ public class BoardServiceImpl implements BoardService {
 		BoardDTO bdto = new BoardDTO(bvo, flist);
 		return bdto;
 	}
-	
+
+	@Override
+	public int removeFile(String uuid) {
+		long bno = fdao.getBnoToUuid(uuid);
+		int isOk = fdao.removeFile(uuid);
+		if(isOk > 0) {
+			bdao.hasFileUpdate(bno, -1);
+		}
+		return isOk;
+	}
+
+	@Override
+	public int plusCmt(CommentVO cvo) {
+		// TODO Auto-generated method stub
+		return bdao.plusCmt(cvo);
+	}
+
+	@Override
+	public int minusCmt(CommentVO cvo) {
+		return bdao.minusCmt(cvo);
+	}
+
+	@Override
+	public void readCountUp(int bno) {
+		// TODO Auto-generated method stub
+		bdao.readCountUp(bno);
+	}
+
 }

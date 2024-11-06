@@ -41,9 +41,9 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public int delete(long cno) {
+	public int delete(CommentVO cvo) {
 		// TODO Auto-generated method stub
-		return cdao.delete(cno);
+		return cdao.delete(cvo);
 	}
 
 	@Override

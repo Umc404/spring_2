@@ -1,7 +1,3 @@
-/**
- * 
- */
- 
  console.log("boardDetailComment.js in"); 
  
  
@@ -98,13 +94,12 @@ document.addEventListener('click', (e)=> {
         console.log(cmtData);
         updateCommentToServer(cmtData).then(result => {
             if(result === '1') {
-                alert('댓글 등록 성공');
+                alert('댓글 수정 성공');
             } else {
-                alert('댓글 등록 실패');
+                alert('댓글 수정 실패');
             }
             // 모달창 닫기 : btn-close 라는 객체를 클릭해라.
-            document.querySelector('.btn-close').click;
-            cmtText.value = "";
+            document.querySelector('.btn-close').click();
             // 댓글 뿌리기
             spreadCommentList(bnoVal);
         })
@@ -114,6 +109,7 @@ document.addEventListener('click', (e)=> {
         // cno만 있으면 됨
         let li = e.target.closest('li');
         let cno = li.dataset.cno;
+
         removeCommentToServer(cno).then(result => {
             if(result === '1') {
                 alert('댓글 삭제 성공');
@@ -154,7 +150,7 @@ async function updateCommentToServer(cmtData) {
 
 async function removeCommentToServer(cno) {
     try {
-        const url = "/comment/"+cno;
+        const url = "/comment/"+cno+"/"+bnoVal;
         const config = {
             method: 'delete'
         }
@@ -187,9 +183,11 @@ async function removeCommentToServer(cno) {
                 li += `${cvo.content}`;
                 li += `</div>`;
                 li += `<span class="badge text-bg-primary rounded-pill">${cvo.regDate}</span>`;
-                // 수정 삭제 버튼 추가
-                li += `<button type="button" data-cno=${cvo.cno} class="btn btn-primary mod" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`
-                li += `<button type="button" data-cno=${cvo.cno} class="btn btn-danger del">삭제</button>`;
+                // 수정 삭제 버튼 추가. 그런데 작성자 일치여부에 따라 수정삭제 버튼처리를 곁들인.
+                if(cvo.writer == authNick) {
+                    li += `<button type="button" data-cno=${cvo.cno} class="btn btn-primary mod" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`
+                    li += `<button type="button" data-cno=${cvo.cno} class="btn btn-danger del">삭제</button>`;
+                }
                 li += `</li>`;
                 ul.innerHTML += li;
             }

@@ -16,16 +16,18 @@
 	order by cno desc
 	limit #{pgvo.pageStart}, #{pgvo.qty}
 </select>
+
 <select id="getTotalCount" resultType="int">
 	select count(cno) from comment where bno = #{bno}
 </select>
+
 <update id="modify">
 	update comment set content = #{content}, regdate = now()
 	where cno = #{cno}
 </update>
 
 <delete id="delete">
-	delete from comment where cno = #{cno}
+	delete from comment where cno = #{cno} and bno = #{bno}
 </delete>
 
 

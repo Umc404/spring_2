@@ -13,5 +13,16 @@
 		select * from file where bno = #{bno}
 	</select>
 	
+	<delete id="removeFile">
+		delete from file where uuid=#{uuid}
+	</delete>
+	
+	<select id="selectListAllFile" resultType="com.ezen.spring.domain.FileVO">
+		select * from file
+	</select>
+	
+	<select id="getBnoToUuid" resultType="long">
+		select bno from file where uuid = #{uuid}
+	</select>
 	
 </mapper>

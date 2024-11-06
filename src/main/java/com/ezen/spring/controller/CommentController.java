@@ -1,7 +1,5 @@
 package com.ezen.spring.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezen.spring.domain.CommentVO;
 import com.ezen.spring.domain.PagingVO;
 import com.ezen.spring.handler.PagingHandler;
+import com.ezen.spring.service.BoardService;
 import com.ezen.spring.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,15 +30,15 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentController {
 	
 	private final CommentService csv;
-	
+	private final BoardService bsv;
 	
 	@PostMapping("/post")
 	public ResponseEntity<String> post(@RequestBody CommentVO cvo) { 
 		log.info(">>>> post cvo > {}", cvo);
 		int isOk = csv.post(cvo);
+		bsv.plusCmt(cvo);
 		return 
 				new ResponseEntity<String>("1", HttpStatus.OK);
-//				 new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	// 댓글 리스트 출력
@@ -48,6 +47,9 @@ public class CommentController {
 //		List<CommentVO> list = csv.getList(bno);
 //		return new ResponseEntity<List<CommentVO>>(list, HttpStatus.OK);
 //	}
+	
+	
+	// 댓글 더보기 기능 : 1페이지 당 5개
 	@GetMapping(value="/{bno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagingHandler> list(@PathVariable("bno") long bno, @PathVariable("page") int page) {
 		
@@ -70,9 +72,11 @@ public class CommentController {
 	}
 	
 	@ResponseBody
-	@DeleteMapping("/{cno}")
-	public String delete(@PathVariable("cno") long cno) {
-		int isOk = csv.delete(cno);
-		return isOk > 0 ? "1":"0";
+	@DeleteMapping("/{cno}/{bno}")
+	public String delete(CommentVO cvo) {			// @PathVariable("") long 로 bno, cno 받아올 수 있음.
+		log.info("testing cvo{}",cvo);
+		int isOk = csv.delete(cvo);
+		int isOk2 = bsv.minusCmt(cvo);
+		return isOk*isOk2 > 0 ? "1":"0";
 	}
 }

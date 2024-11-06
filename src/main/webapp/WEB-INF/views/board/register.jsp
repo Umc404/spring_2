@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +13,9 @@
 <jsp:include page="../layout/header.jsp" />
 <div class="mb-3">
 	<h1>Board Insert</h1>
+<sec:authentication property="principal.uvo.nickName" var="authNick"/>
 	<hr>
-	<!-- mectype : multipart/form-data -->
+	<!-- enctype : multipart/form-data -->
 	<form action="/board/insert" method="post" enctype="multipart/form-data">
 		<div class="mb-3">
 		  <label for="t" class="form-label">title</label>
@@ -20,7 +23,7 @@
 		</div>
 		<div class="mb-3">
 		  <label for="w" class="form-label">writer</label>
-		  <input type="text" class="form-control" id="w" name="writer" placeholder="writer..">
+		  <input type="text" class="form-control" id="w" name="writer" value="${authNick }" readonly="readonly">
 		</div>
 		<div class="mb-3">
 		  <label for="c" class="form-label">content</label>
@@ -37,7 +40,6 @@
 		
 		<!-- 첨부파일 표시라인 -->
 		<div class="mb-3" id="fileZone">
-		
 		</div>
 		
 		<button type="submit" class="btn btn-primary" id="regBtn">Register</button>
@@ -47,6 +49,3 @@
 <script type="text/javascript" src="/resources/js/boardRegister.js"></script>
 
 <jsp:include page="../layout/footer.jsp" />
-
-</body>
-</html>

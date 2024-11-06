@@ -15,7 +15,7 @@ public interface CommentDAO {
 
 	int modify(CommentVO cvo);
 
-	int delete(long cno);
+	int delete(CommentVO cvo);
 
 	List<CommentVO> getList(@Param("bno") long bno, @Param("pgvo") PagingVO pgvo);
 

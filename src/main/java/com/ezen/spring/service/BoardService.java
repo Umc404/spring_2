@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ezen.spring.domain.BoardDTO;
 import com.ezen.spring.domain.BoardVO;
+import com.ezen.spring.domain.CommentVO;
 import com.ezen.spring.domain.PagingVO;
 
 public interface BoardService {
@@ -14,7 +15,9 @@ public interface BoardService {
 
 	BoardDTO getDetail(int bno);
 
-	int modify(BoardVO bvo);
+//	int modify(BoardVO bvo);
+	
+	int modify(BoardDTO bdto);
 
 	int delete(int bno);
 
@@ -23,5 +26,13 @@ public interface BoardService {
 	int getTotal();
 
 	int insert(BoardDTO bdto);
-	
+
+	int removeFile(String uuid);
+
+	int plusCmt(CommentVO cvo);
+
+	int minusCmt(CommentVO cvo);
+
+	void readCountUp(int bno);
+
 }

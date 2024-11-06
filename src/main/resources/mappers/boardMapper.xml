@@ -41,6 +41,11 @@
 		select max(bno) from board	
 	</select>
 	
+	<update id="readCountUp">
+		update board set read_cnt = read_cnt + 1 
+		where bno = #{bno}
+	</update>
+	
 	<!-- search 동적 쿼리 -->
 	<sql id="search">
 		<if test="type!=null">
@@ -64,4 +69,19 @@
 		</if>
 	</sql>
 
+	<!-- 댓글 수 처리 -->
+	<!-- 증가 -->
+	<update id="plusCmt">
+		update board set cmt_qty = cmt_qty+1 where bno=#{bno}
+	</update>
+	<!-- 감소 -->
+	<update id="minusCmt">
+		update board set cmt_qty = cmt_qty-1 where bno=#{bno}
+	</update>
+
+	<!-- 다운로드 유무 처리 -->
+	<update id="hasFileUpdate">
+		update board set has_file = has_file + #{cnt}
+		where bno = #{bno}
+	</update>	
 </mapper>

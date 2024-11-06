@@ -20,4 +20,6 @@ public class BoardVO {
 	private String isDel;
 	private String regDate;
 	private int readCnt;
+	private int cmtQty;
+	private int hasFile;
 }

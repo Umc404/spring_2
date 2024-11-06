@@ -32,3 +32,21 @@ file_size bigint,
 reg_date datetime default now(),
 primary key(uuid)
 );
+
+-- 2024.11.05. 사용자(user), 권한(auth) 테이블
+create table user (
+email varchar(256) not null,
+pwd varchar(256) not null,
+nickName varchar(256),
+reg_date datetime default now(),
+lastLogin datetime default now(),
+primary key(email)
+);
+
+create table auth (
+id bigint auto_increment,
+email varchar(256) not null,
+auth varchar(256) not null,
+primary key(id),
+foreign key(email) references user(email)
+);

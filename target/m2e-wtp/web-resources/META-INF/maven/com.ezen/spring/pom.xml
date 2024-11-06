@@ -195,7 +195,10 @@
 		   <version>6.0.0</version>
 		</dependency>
 		
+		<!-- 댓글관련, 파일관련, 시큐리티 관련, 스케쥴러 관련 -->
+		
 		<!-- 댓글관련 : json 파싱 역할 -->
+		
 		<!-- jackson-databind-2.13.0	jackson-dataformat-xml -->
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
@@ -212,6 +215,7 @@
 		</dependency>
 		
 		<!-- 파일 업로드 -->
+		
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
 		    <groupId>commons-fileupload</groupId>
@@ -244,7 +248,52 @@
 		    <type>pom</type>
 		</dependency>
 		
-		<!-- 댓글관련, 파일관련, 시큐리티 관련, 스케쥴러 관련 -->
+		<!-- 스케쥴러 관련 : quartz, quarts-jobs -->
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>2.3.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz-jobs</artifactId>
+		    <version>2.3.2</version>
+		</dependency>
+		
+		<!-- 시큐리티 관련 -->
+		<!-- spring-security 5.5.3	/	core, web, config, taglibs -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>5.5.3</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>5.5.3</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>5.5.3</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-taglibs</artifactId>
+		    <version>5.5.3</version>
+		</dependency>
+		
+		
+		
 		
 	</dependencies>
     <build>
