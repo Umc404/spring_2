@@ -17,7 +17,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		// TODO Auto-generated method stub
 		return new Class[] {ServletConfiguration.class};
 		// 'ServletConfig' 명칭의 인터페이스가 이미 존재.(java server에 서비스함.) 명칭을 달리해야함.
 	}
@@ -61,20 +60,5 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		// 기존 사용했던 메서드. 파일업로드 기능 추가 시 사용안함
 //		super.customizeRegistration(registration);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

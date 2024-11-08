@@ -5,8 +5,8 @@
     
 <jsp:include page="../layout/header.jsp" />
 <div class="mb-3">
-
-	<h1>Board Insert</h1>
+0
+	<h1>User regist</h1>
 	<hr>
 	<form action="/user/register" method="post">
 		<div class="mb-3">

@@ -19,18 +19,8 @@
 	    <option value="tc" ${ph.pgvo.type eq 'tc' ? 'selected': '' }>title & content</option>
 	    <option value="twc">all</option>
   	</select>
-  	
-
     	<input class="form-control me-2" name="keyword" type="search" value="${ph.pgvo.keyword }" placeholder="Search" aria-label="Search">
     	<input type="hidden" name="pageNo" value="1">
-      
-  <%--     <button type="submit" class="btn btn-outline-success">
-      	Search
-       	<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-	   		${ph.totalCount }
-	    <span class="visually-hidden">unread messages</span>
-	  </span>
-      </button> --%>
 	<button type="submit" class="btn btn-primary position-relative">
 	Search
 	<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -41,6 +31,7 @@
     </form>
   </div>
 <!-- </nav> -->
+
 <table class="table table-striped table-hover">
   <thead>
   	<tr>
